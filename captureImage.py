@@ -1,7 +1,6 @@
 from djitellopy import tello
 import cv2
 
-# first connect drone object to machine's wifi
 # create drone object
 drone = tello.Tello()
 drone.connect()

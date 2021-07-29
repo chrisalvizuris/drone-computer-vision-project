@@ -9,6 +9,13 @@ print(drone.get_battery())
 
 
 def get_key_input():
+    """
+    Function to read in a specific key from a keyboard and control the drone via the pressed key.
+    Example - pressing the right arrow button on keyboard moves drone to the right
+
+    :return: Returns the values used in send_rc_controls() individually.
+    """
+
     left_right, forward_backward, up_down, yaw_velocity = 0, 0, 0, 0
     speed = 50
 
