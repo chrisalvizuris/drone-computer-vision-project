@@ -5,9 +5,6 @@ import cv2
 drone = tello.Tello()
 drone.connect()
 
-# get_battery will return the battery percentage in an integer range between 0-100
-print(drone.get_battery())
-
 # stream will give us all the frames 1 by 1 and we can process them
 drone.streamon()
 

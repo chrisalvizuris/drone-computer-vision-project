@@ -49,6 +49,6 @@ def get_key_input():
 
 
 while True:
-    vals = get_key_input()
-    drone.send_rc_control(vals[0], vals[1], vals[2], vals[3])
+    values = get_key_input()
+    drone.send_rc_control(values[0], values[1], values[2], values[3])
     sleep(0.5)

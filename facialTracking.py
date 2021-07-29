@@ -3,11 +3,8 @@ import time
 import cv2
 import numpy as np
 
-# create drone object
 drone = tello.Tello()
 drone.connect()
-
-# stream will give us all the frames 1 by 1 and we can process them
 drone.streamon()
 drone.takeoff()
 

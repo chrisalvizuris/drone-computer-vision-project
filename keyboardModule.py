@@ -1,12 +1,9 @@
 import pygame
 
-# pygame is a library used to create python games
-# in order for pygame to detect keys being pressed, we must create a game window
-
 
 def init():
     """
-    Initializes the pygame window
+    Initializes the pygame window. Needed in order for pygame to detect keys being pressed.
 
     :return: N/A
     """
