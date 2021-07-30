@@ -7,8 +7,8 @@ from time import sleep
 # create drone object
 # drone = tello.Tello()
 # drone.connect()
-#
-# # get_battery will return the battery percentage in an integer range between 0-100
+
+# get_battery will return the battery percentage in an integer range between 0-100
 # print(drone.get_battery())
 
 # takeoff, move forward 50 centimeters in 2 seconds, move right 30 centimeters in 2 seconds, and then land

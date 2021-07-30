@@ -9,8 +9,8 @@ drone.streamon()
 drone.takeoff()
 
 # instruct the drone to fly up so that it can be within a frame that is as tall as me
-drone.send_rc_control(0, 0, 20, 0)
-time.sleep(2)
+drone.send_rc_control(0, 0, 4, 0)
+time.sleep(1)
 
 forward_backward_range = [6200, 6800]
 width, height = 360, 240
@@ -28,8 +28,7 @@ def detect_face(image):
     :return: Image's center and area values as 2 element list
     """
     face_cascade = cv2.CascadeClassifier("Resources/haarcascade_frontalface_default.xml")
-    # convert to gray scale
-    img_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    img_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  # convert to gray scale
     faces = face_cascade.detectMultiScale(img_gray, 1.2, 8)
 
     # create a list of all of the faces, then...
@@ -37,15 +36,15 @@ def detect_face(image):
     my_face_list_centered = []
     my_face_list_area = []
 
-    for (x, y, width, height) in faces:
-        cv2.rectangle(image, (x, y), (x + width, y + height), (0, 0, 255), 2)
+    for (x, y, w, h) in faces:
+        cv2.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
 
         # centers are used to determine when the camera is rotated
         center_x = x + y // 2
-        center_y = y + height // 2
+        center_y = y + h // 2
 
         # area is used to determine when the camera moves forward and backwords
-        area = width * height
+        area = w * h
         cv2.circle(image, (center_x, center_y), 5, (0, 255, 0), cv2.FILLED)
         my_face_list_centered.append([center_x, center_y])
         my_face_list_area.append(area)
@@ -59,22 +58,21 @@ def detect_face(image):
         return image, [[0, 0], 0]
 
 
-def track_face(drone, info, width, pid, previous_error):
+def track_face(info, width, pid, previous_error):
     """
     This function takes in the drone and then continually tracks the face's location and readjusts
     drone's position accordingly.
 
-    :param drone: Drone that is being called.
     :param info: Two-element list of image's center and area values, which are returned from detect_face()
     :param width: Width of the image
     :param pid: Pid controller. Only use proportional and integral values.
-    :param Previous_error: error that was returned from track_face(). Deviation from center.
+    :param previous_error: error that was returned from track_face(). Deviation from center.
     :return: Error, which is the deviation from center. Will be used as previous_error in future use.
     """
 
     area = info[1]
     x, y = info[0]
-
+    forward_backward = 0
     # find the deviation from the center
     error = x - width // 2
 
@@ -104,16 +102,12 @@ def track_face(drone, info, width, pid, previous_error):
     # we return the error because it will be used as previous_error when called again
     return error
 
-# created a capture variable to test on external webcam
-# capture = cv2.VideoCapture(1)
-
 
 while True:
-    # _, img = capture.read()
-    image = drone.get_frame_read().frame
+    img = drone.get_frame_read().frame
     img = cv2.resize(img, (width, height))
     img, info = detect_face(img)
-    previous_error = track_face(drone, info, width, pid, previous_error)
+    previous_error = track_face(info, width, pid, previous_error)
     print("Area", info[1], "Center", info[0])
     cv2.imshow("Output", img)
 
