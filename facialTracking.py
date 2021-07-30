@@ -87,6 +87,9 @@ def track_face(info, width, pid, previous_error):
 
     # if the drone gets too close, move backwards 20 centimeters
     elif area > forward_backward_range[1]:
+        # if the drone gets REALLY close, it does a back flip
+        if area > forward_backward_range[1] * 1.5:
+            drone.flip_back()
         forward_backward = -20
 
     # if the drone is too far, move forward 20 centimeters
@@ -114,5 +117,5 @@ while True:
     # apply the mask of 0xff and then return the unicode point of 'q'
     # this lets me terminate the drone with the keyboard
     if cv2.waitKey(1) & 0xFF == ord('q'):
-        drone.land()
+        drone.end()
         break

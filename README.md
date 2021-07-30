@@ -1,6 +1,6 @@
 # drone-computer-vision-project
 
-Used Haar Cascade face detection model to train a drone to follow my facial movements.
+Used Haar Cascade face detection model to train a drone to follow my facial movements. Fun fact: The drone acts excited when it gets REALLY close to your face...it does a backflip!
 
 ## Author Information
 
